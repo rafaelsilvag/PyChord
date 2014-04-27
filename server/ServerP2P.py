@@ -1,17 +1,16 @@
-__author__ = 'rafaelguimaraes'
+__author__ = 'Rafael S. Guimaraes'
 
-import threading
 import socket
 import struct
-from select import select
-from time import sleep
 
-class ServerP2P(threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
-        self.running = 1
+
+class ServerP2P():
+    def __init__(self, node):
         self.conn = None
         self.addr = None
+        self.raddr = None
+        self.stop = False
+        self.node = node
 
     def ip2int(addr):
         return struct.unpack("!I", socket.inet_aton(addr))[0]
@@ -25,15 +24,17 @@ class ServerP2P(threading.Thread):
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP protocol
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         s.bind((HOST,PORT))
-        #self.conn, self.addr = s.accept()
-        # Select loop for listen
-        while(self.running == True):
+
+        while(self.stop == False):
             # Handle sockets
             data, addr = s.recvfrom(1024)
-            res = data.split(' ')
-            codeMessage = int(res[0])
+            try:
+                codeMessage = int(data[0:1])
+            except ValueError, e:
+                codeMessage = 100
+                continue
             if codeMessage == 0:
-                print "Received: Join %s" % (res[1])
+                self.node.updateScreen("Received: Join "+data[1:5])
             elif codeMessage == 1:
                 print "Received: Leave"
             elif codeMessage == 2:
@@ -50,6 +51,3 @@ class ServerP2P(threading.Thread):
                 print "Received: Update Answer"
             else:
                 print "Received: Invalid code!"
-
-    def kill(self):
-        self.running = 0
