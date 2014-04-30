@@ -14,7 +14,7 @@ def int2ip(addr):
 def main():
     res = hashlib.md5()
     res.update(str('192.168.0.22'))
-    p2pClient = ClientP2P("192.168.1.146")
+    p2pClient = ClientP2P("127.0.0.1")
 
     p2pClient.sendMessage("0"+str(int(res.hexdigest(),16))[0:4])
 
