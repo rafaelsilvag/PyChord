@@ -3,7 +3,7 @@ __author__ = 'Rafael S. Guimaraes'
 import socket
 from ClientP2P import ClientP2P
 
-class ServerP2P():
+class ServerP2P(object):
     def __init__(self, node):
         self.__HOST = ''
         self.__PORT = 12345
