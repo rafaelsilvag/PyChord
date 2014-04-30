@@ -1,8 +1,7 @@
 __author__ = 'Rafael S. Guimaraes'
 
 import socket
-import struct
-
+from ClientP2P import ClientP2P
 
 class ServerP2P():
     def __init__(self, node):
@@ -11,6 +10,7 @@ class ServerP2P():
         self.conn = None
         self.stop = False
         self.node = node
+        self.client_p2p = ClientP2P("127.0.0.1")
 
     def lookupMessage(self, msg):
         ## Desmembrando mensagem de envio
