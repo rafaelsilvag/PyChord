@@ -1,6 +1,7 @@
 __author__ = 'Rafael S. Guimaraes'
 
 from server.ServerP2P import ServerP2P
+from server.ClientP2P import ClientP2P
 from threading import Thread
 from domain import Node
 import sys
@@ -23,13 +24,13 @@ def main():
 
     ## Cria o No com um Hash Inicial
     node = Node.Node(screen)
-    node.ipAddrNode="192.168.0.1"
-
 
     ## Codifica o codigo do no
+    node.ipAddrNode = get_param("Enter Node IP Address", screen)
     codeHash = hashlib.md5(node.ipAddrNode)
     node.code = str(int(codeHash.hexdigest(),16))[0:4]
     ## Inicia e cria uma thread do servidor
+    p2pClient = ClientP2P("127.0.0.1")
     p2pServer = ServerP2P(node)
     processo=Thread(target=p2pServer.run)
     processo.start()
@@ -38,6 +39,7 @@ def main():
     while opc != ord('5'):
         # Get window dimensions
         y, x = screen.getmaxyx()
+
         screen.clear()
         screen.border(0)
         ## Exibe o No
@@ -107,6 +109,7 @@ def main():
             screen.addstr(7,7,"[ PRESS ENTER TO EXIT ]")
             screen.refresh()
             p2pServer.stop = True
+            p2pClient.sendMessage("FIM")
             res = screen.getch()
             curses.endwin()
     curses.endwin()

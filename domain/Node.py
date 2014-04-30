@@ -12,8 +12,10 @@ class Node(object):
         self.__screen = screen
 
     def updateScreen(self, msg):
+        """
+
+        """
         self.__screen.clear()
         self.__screen.border(0)
         self.__screen.addstr(5,10,msg)
-        self.__screen.addstr(7,10,"Node: "+self.code)
         self.__screen.refresh()
