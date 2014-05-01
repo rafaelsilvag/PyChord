@@ -1,4 +1,4 @@
-__author__ = 'Rafael S. Guimaraes'
+__author__ = 'Rafael S. Guimaraes e Joao Paulo de Brito Goncalves'
 
 import hashlib
 import struct

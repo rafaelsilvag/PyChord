@@ -1,4 +1,4 @@
-__author__ = 'Rafael S. Guimaraes'
+__author__ = 'Rafael S. Guimaraes e Joao Paulo de Brito Goncalves'
 
 from server.ServerP2P import ServerP2P
 from server.ClientP2P import ClientP2P

@@ -1,4 +1,4 @@
-__author__ = 'Rafael S. Guimaraes'
+__author__ = 'Rafael S. Guimaraes e Joao Paulo de Brito Goncalves'
 
 class Node(object):
 
@@ -13,7 +13,7 @@ class Node(object):
 
     def updateScreen(self, msg):
         """
-
+            Update Screen
         """
         self.__screen.clear()
         self.__screen.border(0)
