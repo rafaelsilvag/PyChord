@@ -16,7 +16,17 @@ def main():
     res.update(str('192.168.0.22'))
     p2pClient = ClientP2P("127.0.0.1")
 
-    p2pClient.sendMessage("0"+str(int(res.hexdigest(),16))[0:4])
+    ## ENVIO
+    #data = struct.pack("!BI",0,2323)
+    #p2pClient.sendMessage(data)
+    #data = struct.pack("!BIIIII",1,2222,2323,ip2int("192.168.0.1"),2424,ip2int("192.168.0.2"))
+    #p2pClient.sendMessage(data)
+    #data = struct.pack("!BIII",2,2222,ip2int("127.0.0.22"),2323)
+    #p2pClient.sendMessage(data)
+    data = struct.pack("!BIII",3,2222,2424,ip2int("177.2.2.1"))
+    p2pClient.sendMessage(data)
+    ##
+        #bytes("64"+str(int(res.hexdigest(),16))[0:]))
 
     #+str(int(res.hexdigest(), 16))
 
