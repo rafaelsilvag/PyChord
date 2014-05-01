@@ -13,15 +13,20 @@ def get_param(prompt_string, screen):
     screen.clear()
     y, x = screen.getmaxyx()
     screen.border(0)
-    screen.addstr(8, (y/2), prompt_string)
+    screen.addstr(15, 40, prompt_string, curses.color_pair(1))
     screen.refresh()
-    input = screen.getstr(10, (y/2), 60)
+    input = screen.getstr(17, 40, 60)
     return input
 
 def main():
     ## Inicia o Screen
     screen = curses.initscr()
-
+    curses.start_color()
+    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_BLUE)
+    curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+    curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_RED)
+    curses.init_pair(4, curses.COLOR_BLACK, curses.COLOR_GREEN)
+    curses.init_pair(5, curses.COLOR_WHITE, curses.COLOR_BLACK)
     ## Cria o No com um Hash Inicial
     node = Node.Node(screen)
 
@@ -44,43 +49,52 @@ def main():
         screen.border(0)
         ## Exibe o No
         screen.addstr(2, (x-40),"----------------------------------")
-        screen.addstr(3, (x-40),"CODE: "+str(node.code))
-        screen.addstr(4, (x-40),"IP Node: "+str(node.ipAddrNode))
-        screen.addstr(5, (x-40),"ID Successor: "+str(node.idSuccessor))
-        screen.addstr(6, (x-40),"IP Successor: "+str(node.ipAddrSuccessor))
-        screen.addstr(7, (x-40),"ID Predecessor: "+str(node.idPredecessor))
-        screen.addstr(8, (x-40),"IP Predecessor: "+str(node.ipAddrPredecessor))
+        screen.addstr(3, (x-40),"CODE: "+str(node.code),curses.color_pair(2))
+        screen.addstr(4, (x-40),"IP Node: "+str(node.ipAddrNode),curses.color_pair(2))
+        screen.addstr(5, (x-40),"ID Successor: "+str(node.idSuccessor),curses.color_pair(2))
+        screen.addstr(6, (x-40),"IP Successor: "+str(node.ipAddrSuccessor),curses.color_pair(2))
+        screen.addstr(7, (x-40),"ID Predecessor: "+str(node.idPredecessor),curses.color_pair(2))
+        screen.addstr(8, (x-40),"IP Predecessor: "+str(node.ipAddrPredecessor),curses.color_pair(2))
         screen.addstr(9, (x-40),"----------------------------------")
         ###
-        screen.addstr(2, (y/2), "PyChord - P2P Node")
-        screen.addstr(4, (y/2), "1 - Initializing Node")
-        screen.addstr(5, (y/2), "2 - Join Node")
-        screen.addstr(6, (y/2), "3 - Leave Node")
-        screen.addstr(7, (y/2), "4 - Lookup Node")
-        screen.addstr(8, (y/2), "5 - Exit")
+        screen.addstr(10, 40, "#    PyChord   -   P2P Node    #",curses.color_pair(1))
+        screen.addstr(12, 40, "1 - Initializing Node",curses.color_pair(5))
+        screen.addstr(13, 40, "2 - Join Node",curses.color_pair(5))
+        screen.addstr(14, 40, "3 - Leave Node",curses.color_pair(5))
+        screen.addstr(15, 40, "4 - Lookup Node",curses.color_pair(5))
+        screen.addstr(16, 40, "5 - Exit",curses.color_pair(5))
         screen.refresh()
 
         opc = screen.getch()
 
         if opc == ord('1'):
             ## Inicializando No
-            node.idSuccessor = node.code
-            node.idPredecessor = node.code
-            node.ipAddrSuccessor = node.ipAddrNode
-            node.ipAddrPredecessor = node.ipAddrNode
-            ###
-            screen.clear()
-            screen.border(0)
-            screen.addstr(7,7,"Node Initialized...")
-            screen.refresh()
-            res = screen.getch()
-            curses.endwin()
+            if(node.idSuccessor == None and node.idPredecessor == None):
+                node.idSuccessor = node.code
+                node.idPredecessor = node.code
+                node.ipAddrSuccessor = node.ipAddrNode
+                node.ipAddrPredecessor = node.ipAddrNode
+                ###
+                screen.clear()
+                screen.border(0)
+                screen.addstr(15,40,"Node Initialized...",curses.color_pair(4))
+                screen.refresh()
+                res = screen.getch()
+                curses.endwin()
+            else:
+                ###
+                screen.clear()
+                screen.border(0)
+                screen.addstr(15,40,"Node can not be initialized...",curses.color_pair(3))
+                screen.refresh()
+                res = screen.getch()
+                curses.endwin()
 
         if opc == ord('2'):
             ipaddress = get_param("Enter the IP Address", screen)
             screen.clear()
             screen.border(0)
-            screen.addstr(7,7,"Joined to "+ipaddress)
+            screen.addstr(15,40,"JOINE to "+ipaddress,curses.color_pair(4))
             screen.refresh()
             res = screen.getch()
             curses.endwin()
@@ -89,7 +103,7 @@ def main():
             ipaddress = get_param("Enter the IP Address", screen)
             screen.clear()
             screen.border(0)
-            screen.addstr(7,7,"Joined to "+ipaddress)
+            screen.addstr(15,40,"LEAVE to "+ipaddress,curses.color_pair(4))
             screen.refresh()
             res = screen.getch()
             curses.endwin()
@@ -98,7 +112,7 @@ def main():
             ipaddress = get_param("Enter the IP Address", screen)
             screen.clear()
             screen.border(0)
-            screen.addstr(7,7,"Joined to "+ipaddress)
+            screen.addstr(15,40,"LOOKUP to "+ipaddress,curses.color_pair(4))
             screen.refresh()
             res = screen.getch()
             curses.endwin()
@@ -106,7 +120,7 @@ def main():
         if opc == ord('5'):
             screen.clear()
             screen.border(1)
-            screen.addstr(7,7,"[ PRESS ENTER TO EXIT ]")
+            screen.addstr(15,40,"[ PRESS ENTER TO EXIT ]",curses.color_pair(2))
             screen.refresh()
             p2pServer.stop = True
             p2pClient.sendMessage("FIM")

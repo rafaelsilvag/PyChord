@@ -23,9 +23,18 @@ def main():
     #p2pClient.sendMessage(data)
     #data = struct.pack("!BIII",2,2222,ip2int("127.0.0.22"),2323)
     #p2pClient.sendMessage(data)
-    data = struct.pack("!BIII",3,2222,2424,ip2int("177.2.2.1"))
+    #data = struct.pack("!BIII",3,2222,2424,ip2int("177.2.2.1"))
+    #p2pClient.sendMessage(data)
+
+    ## RECEBIMENTO
+    #data = struct.pack("!BIIII",64,2323,ip2int("177.2.2.1"),2424,ip2int("177.2.2.33"))
+    #p2pClient.sendMessage(data)
+    #data = struct.pack("!BI",65,2323)
+    #p2pClient.sendMessage(data)
+    data = struct.pack("!BIII",66,2323,2424,ip2int("177.2.2.1"))
     p2pClient.sendMessage(data)
-    ##
+    #data = struct.pack("!BI",67,2323)
+    #p2pClient.sendMessage(data)
         #bytes("64"+str(int(res.hexdigest(),16))[0:]))
 
     #+str(int(res.hexdigest(), 16))
