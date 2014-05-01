@@ -26,6 +26,10 @@ class ServerP2P(object):
             res = struct.unpack("!BI",msg['data'])
             id_node = int(res[1])
             # Responder o Join informando os dados do sucessor a antecessor.
+            # Duvida: Vou atualizar o meu antecessor com as informacoes de envio do Join.
+            if(self.node.code == self.node.idSuccessor and self.node.code == self.node.idPredecessor ):
+                # Verifico se sou o unico no na rede: O antecessor o sucessor sao iguais.
+                pass
             self.node.updateScreen("Received: JOIN "+str(id_node))
         elif(int(typeMSG[0]) == 64):
             #Resposta Join
@@ -69,7 +73,7 @@ class ServerP2P(object):
             src_ip_searched = self.int2ip(int(res[2]))
             id_searched = int(res[3])
             if(self.node.code == self.node.idSuccessor and self.node.code == self.node.idPredecessor ):
-                # Sou o no inicial
+                # Sou o no inicial: Respondo o Lookup
                 pass
             elif(self.node.code < src_id_searched and self.node.idPredecessor > self.node.code):
                 # Eu respondo o Lookup para o ID do procurado.
@@ -78,7 +82,7 @@ class ServerP2P(object):
                 # Meu id Maior que ID do procurado = Responderei o Lookup para o ID do procurado.
                 pass
             else:
-                # Repassa a Mensagem de Lookup para o Sucessor.
+                # Repassa a Mensagem de Lookup para o meu Sucessor.
                 pass
 
             self.node.updateScreen("Received: LOOKUP "+str(src_ip_searched))
