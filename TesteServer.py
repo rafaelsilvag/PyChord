@@ -7,7 +7,7 @@ s.bind(('',12345))
 while(True):
     # Handle sockets
     data, addr = s.recvfrom(1024)
-    print int(bytearray(data)[0])
+    #print int(bytearray(data)[0])
     #res = struct.unpack("bi",data)
     print data
-
+    print addr
