@@ -1,4 +1,5 @@
-__author__ = 'Rafael S. Guimaraes e Joao Paulo de Brito Goncalves'
+# -*- coding: utf-8 -*-
+__author__ = 'Rafael S. Guimarães e João Paulo de Brito Gonçalves'
 
 import socket
 import struct
@@ -49,7 +50,7 @@ class ServerP2P(object):
             ip_node_sucessor = self.int2ip(int(res[2]))
             id_node_predecessor = int(res[3])
             ip_node_predecessor = self.int2ip(int(res[4]))
-            # Atualiza as informações do meu no
+            # Atualiza as informacoes do meu no
             self.node.idSuccessor = id_node_sucessor
             self.node.ipAddrSuccessor = ip_node_sucessor
             self.node.idPredecessor = id_node_predecessor

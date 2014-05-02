@@ -1,4 +1,5 @@
-__author__ = 'Rafael S. Guimaraes e Joao Paulo de Brito Goncalves'
+# -*- coding: utf-8 -*-
+__author__ = 'Rafael S. Guimarães e João Paulo de Brito Gonçalves'
 
 class Node(object):
 
