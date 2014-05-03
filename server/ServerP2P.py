@@ -21,13 +21,13 @@ class ServerP2P(object):
         return socket.inet_ntoa(struct.pack("!I", addr))
 
     def joinMessage(self, msg):
-        # Envio Join
+        # Envio da mensagem Join
         typeMSG = bytearray(msg['data'])
         if(int(typeMSG[0]) == 0 ):
             res = struct.unpack("!BI",msg['data'])
             id_node = int(res[1])
-            # Responder o Join informando os dados do sucessor a antecessor.
-            # Duvida: Vou atualizar o meu antecessor com as informacoes de envio do Join.
+            # Responder a mensagem Join informando os dados do sucessor a antecessor.
+            # Vou atualizar o campo antecessor do nó que inserirá o novo nó no anel com o ID do novo nó.
             # Verifico se sou o unico no na rede: O antecessor e o sucessor sao iguais.
             ## Responde o Join
             rmsg = {
@@ -44,7 +44,7 @@ class ServerP2P(object):
             self.node.ipAddrPredecessor = msg['addr']
             self.node.updateScreen("Received: JOIN "+str(id_node))
         elif(int(typeMSG[0]) == 64):
-            #Resposta Join
+            #Resposta da mensagem Join
             res = struct.unpack("!BIIII",msg['data'])
             id_node_sucessor = int(res[1])
             ip_node_sucessor = self.int2ip(int(res[2]))
@@ -131,7 +131,7 @@ class ServerP2P(object):
                 }
                 self.client_p2p.sendLookupMsg(rmsg)
             elif(self.node.code < src_id_searched and self.node.idPredecessor > self.node.code):
-                # Eu respondo o Lookup para o ID do procurado. ( COD 66)
+                # se o meu ID é menor que o ID procurado  e o ID do meu antecessor é maior que o meu próprio ID, eu respondo a mensagem de  Lookup para o ID do procurado. ( COD 66)
                 rmsg = {
                     'dest_ip_addr': src_ip_searched,
                     'type': 66,
