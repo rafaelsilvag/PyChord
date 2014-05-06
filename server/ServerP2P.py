@@ -131,7 +131,8 @@ class ServerP2P(object):
                 }
                 self.client_p2p.sendLookupMsg(rmsg)
             elif(self.node.code < src_id_searched and self.node.idPredecessor > self.node.code):
-                # se o meu ID é menor que o ID procurado  e o ID do meu antecessor é maior que o meu próprio ID, eu respondo a mensagem de  Lookup para o ID do procurado. ( COD 66)
+                # se o meu ID é menor que o ID procurado  e o ID do meu antecessor é maior que o meu próprio ID,
+                # eu respondo a mensagem de  Lookup para o ID do procurado. ( COD 66)
                 rmsg = {
                     'dest_ip_addr': src_ip_searched,
                     'type': 66,
@@ -178,7 +179,7 @@ class ServerP2P(object):
             }
             self.client_p2p.sendJoinMsg(rmsg)
 
-            self.node.updateScreen("Received: ANSWER LOOKUP "+str(ip_sucessor_searched))
+            self.node.updateScreen("Received: ANSWER LOOKUP "+str(rmsg))
 
     def updateMessage(self, msg):
         # Envio Update
@@ -195,7 +196,7 @@ class ServerP2P(object):
             rmsg = {
                 'dest_ip_addr': ip_new_sucessor,
                 'type': 67,
-                'id_node': id_src,
+                'id_src_msg': id_src,
             }
             self.client_p2p.sendUpdateMsg(rmsg)
             self.node.updateScreen("Received: UPDATE ID_S:"+str(id_new_sucessor)+
@@ -221,24 +222,25 @@ class ServerP2P(object):
             data, addr = s.recvfrom(1024)
             msg = {'addr':addr[0], 'data':data}
             try:
-                codeMessage = bytearray(data)
-                if int(codeMessage[0]) == 0:
-                    self.joinMessage(msg)
-                elif int(codeMessage[0]) == 1:
-                    self.leaveMessage(msg)
-                elif int(codeMessage[0]) == 2:
-                    self.lookupMessage(msg)
-                elif int(codeMessage[0]) == 3:
-                    self.updateMessage(msg)
-                elif int(codeMessage[0]) == 64:
-                    self.joinMessage(msg)
-                elif int(codeMessage[0]) == 65:
-                    self.leaveMessage(msg)
-                elif int(codeMessage[0]) == 66:
-                    self.lookupMessage(msg)
-                elif int(codeMessage[0]) == 67:
-                    self.updateMessage(msg)
-                else:
-                    print "Received: Invalid code!"
+                if len(data) > 0:
+                    codeMessage = bytearray(data)
+                    if int(codeMessage[0]) == 0:
+                        self.joinMessage(msg)
+                    elif int(codeMessage[0]) == 1:
+                        self.leaveMessage(msg)
+                    elif int(codeMessage[0]) == 2:
+                        self.lookupMessage(msg)
+                    elif int(codeMessage[0]) == 3:
+                        self.updateMessage(msg)
+                    elif int(codeMessage[0]) == 64:
+                        self.joinMessage(msg)
+                    elif int(codeMessage[0]) == 65:
+                        self.leaveMessage(msg)
+                    elif int(codeMessage[0]) == 66:
+                        self.lookupMessage(msg)
+                    elif int(codeMessage[0]) == 67:
+                        self.updateMessage(msg)
+                    else:
+                        print "Received: Invalid code!"
             except ValueError, e:
                 continue

@@ -32,8 +32,16 @@ def main():
     #p2pClient.sendMessage(data)
     #data = struct.pack("!BI",65,2323)
     #p2pClient.sendMessage(data)
-    data = struct.pack("!BIII",66,2323,2424,ip2int("177.2.2.1"))
-    p2pClient.sendMessage(data)
+    #data = struct.pack("!BIII",66,2323,2424,ip2int("177.2.2.1"))
+    #p2pClient.sendMessage(data)
+    rmsg = {
+        'dest_ip_addr': '127.0.0.1',
+        'type': 2,
+        'src_id_searched': 1222,
+        'src_ip_searched': '127.0.0.1',
+        'id_searched': 1222,
+    }
+    p2pClient.sendLookupMsg(rmsg)
     #data = struct.pack("!BI",67,2323)
     #p2pClient.sendMessage(data)
         #bytes("64"+str(int(res.hexdigest(),16))[0:]))
