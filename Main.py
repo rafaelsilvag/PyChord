@@ -32,7 +32,7 @@ def main():
     ## Codifica o codigo do no
     node.ipAddrNode = get_param("Enter Node IP Address", screen)
     codeHash = hashlib.md5(node.ipAddrNode)
-    node.code = str(int(codeHash.hexdigest(),16))[0:4]
+    node.code = int(str(int(codeHash.hexdigest(),16))[0:4])
     ## Inicia e cria uma thread do servidor
     p2pClient = ClientP2P("127.0.0.1")
     p2pServer = ServerP2P(node)
@@ -56,7 +56,7 @@ def main():
         screen.addstr(8, (x-40),"IP Predecessor: "+str(node.ipAddrPredecessor),curses.color_pair(2))
         screen.addstr(9, (x-40),"----------------------------------")
         ###
-        screen.addstr(10, 40, "#    PyChord   -   P2P Node    #",curses.color_pair(1))
+        screen.addstr(10, 40, "###    PyChord   -   P2P Node    ###",curses.color_pair(1))
         screen.addstr(12, 40, "1 - Initializing Node",curses.color_pair(5))
         screen.addstr(13, 40, "2 - Leave Node",curses.color_pair(5))
         screen.addstr(14, 40, "3 - Lookup Node",curses.color_pair(5))
