@@ -57,7 +57,7 @@ def main():
         screen.addstr(9, (x-40),"----------------------------------")
         ###
         screen.addstr(10, 40, "###    PyChord   -   P2P Node    ###",curses.color_pair(1))
-        screen.addstr(12, 40, "1 - Initializing Node",curses.color_pair(5))
+        screen.addstr(12, 40, "1 - Initializing Ring",curses.color_pair(5))
         screen.addstr(13, 40, "2 - Leave Node",curses.color_pair(5))
         screen.addstr(14, 40, "3 - Lookup Node",curses.color_pair(5))
         screen.addstr(15, 40, "4 - Exit",curses.color_pair(5))
@@ -75,7 +75,7 @@ def main():
                 ###
                 screen.clear()
                 screen.border(0)
-                screen.addstr(15,40,"Node Initialized...",curses.color_pair(4))
+                screen.addstr(15,40,"Ring Initialized with node: "+str(node.code),curses.color_pair(4))
                 screen.refresh()
                 res = screen.getch()
                 curses.endwin()
@@ -83,7 +83,7 @@ def main():
                 ###
                 screen.clear()
                 screen.border(0)
-                screen.addstr(15,40,"Node can not be initialized...",curses.color_pair(3))
+                screen.addstr(15,40,"Ring can not be initialized...",curses.color_pair(3))
                 screen.refresh()
                 res = screen.getch()
                 curses.endwin()
