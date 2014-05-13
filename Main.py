@@ -110,8 +110,8 @@ def main():
                 'ip_node_predecessor': node.ipAddrPredecessor,
             }
             screen.addstr(15,40,"LEAVE to Sucessor: "+str(rmsg_sucessor['dest_ip_addr']), curses.color_pair(4))
-            screen.refresh()
             screen.addstr(20,40,"LEAVE to Predecessor:"+str(rmsg_predecessor['dest_ip_addr']), curses.color_pair(4))
+            screen.refresh()
             p2pClient.sendLeaveMsg(rmsg_sucessor)
             p2pClient.sendLeaveMsg(rmsg_predecessor)
             res = screen.getch()
