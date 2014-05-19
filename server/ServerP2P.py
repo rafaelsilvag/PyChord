@@ -194,7 +194,7 @@ class ServerP2P(object):
             }
             self.client_p2p.sendJoinMsg(rmsg)
 
-            self.node.updateScreen("Received: ANSWER LOOKUP - JOIN TO"+str(rmsg))
+            self.node.updateScreen("Received: ANSWER LOOKUP - JOIN TO "+str(rmsg))
 
     def updateMessage(self, msg):
         # Envio Update
