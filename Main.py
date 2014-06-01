@@ -89,33 +89,42 @@ def main():
                 curses.endwin()
 
         if opc == ord('2'):
-            screen.clear()
-            screen.border(0)
-            rmsg_sucessor = {
-                'dest_ip_addr': node.ipAddrSuccessor,
-                'type': 1,
-                'id_node_out': node.code,
-                'id_node_sucessor': node.idSuccessor,
-                'ip_node_sucessor': node.ipAddrSuccessor,
-                'id_node_predecessor': node.idPredecessor,
-                'ip_node_predecessor': node.ipAddrPredecessor,
-            }
-            rmsg_predecessor = {
-                'dest_ip_addr': node.ipAddrPredecessor,
-                'type': 1,
-                'id_node_out': node.code,
-                'id_node_sucessor': node.idSuccessor,
-                'ip_node_sucessor': node.ipAddrSuccessor,
-                'id_node_predecessor': node.idPredecessor,
-                'ip_node_predecessor': node.ipAddrPredecessor,
-            }
-            screen.addstr(15,40,"LEAVE to Sucessor: "+str(rmsg_sucessor['dest_ip_addr']), curses.color_pair(4))
-            screen.addstr(20,40,"LEAVE to Predecessor:"+str(rmsg_predecessor['dest_ip_addr']), curses.color_pair(4))
-            screen.refresh()
-            p2pClient.sendLeaveMsg(rmsg_sucessor)
-            p2pClient.sendLeaveMsg(rmsg_predecessor)
-            res = screen.getch()
-            curses.endwin()
+            if node.ipAddrPredecessor and node.ipAddrSuccessor:
+                screen.clear()
+                screen.border(0)
+                rmsg_sucessor = {
+                    'dest_ip_addr': node.ipAddrSuccessor,
+                    'type': 1,
+                    'id_node_out': node.code,
+                    'id_node_sucessor': node.idSuccessor,
+                    'ip_node_sucessor': node.ipAddrSuccessor,
+                    'id_node_predecessor': node.idPredecessor,
+                    'ip_node_predecessor': node.ipAddrPredecessor,
+                }
+                rmsg_predecessor = {
+                    'dest_ip_addr': node.ipAddrPredecessor,
+                    'type': 1,
+                    'id_node_out': node.code,
+                    'id_node_sucessor': node.idSuccessor,
+                    'ip_node_sucessor': node.ipAddrSuccessor,
+                    'id_node_predecessor': node.idPredecessor,
+                    'ip_node_predecessor': node.ipAddrPredecessor,
+                }
+                screen.addstr(15,40,"LEAVE to Sucessor: "+str(rmsg_sucessor['dest_ip_addr']), curses.color_pair(4))
+                screen.addstr(20,40,"LEAVE to Predecessor:"+str(rmsg_predecessor['dest_ip_addr']), curses.color_pair(4))
+                screen.refresh()
+                p2pClient.sendLeaveMsg(rmsg_sucessor)
+                p2pClient.sendLeaveMsg(rmsg_predecessor)
+                res = screen.getch()
+                curses.endwin()
+            else:
+                ###
+                screen.clear()
+                screen.border(0)
+                screen.addstr(15,40,"IP ADDRESS OF SUCESSOR AND PREDECESSOR IS NULL",curses.color_pair(3))
+                screen.refresh()
+                res = screen.getch()
+                curses.endwin()
 
         if opc == ord('3'):
             ipaddress = get_param("Enter the IP Address", screen)
