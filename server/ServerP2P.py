@@ -85,10 +85,17 @@ class ServerP2P(object):
                 'type': 65,
                 'id_src_msg': self.node.code,
             }
-            if(self.node.code == id_node_sucessor):
+            if (self.node.code == id_node_sucessor) and (self.node.code == id_node_predecessor):
                 self.node.idPredecessor = id_node_predecessor
                 self.node.ipAddrPredecessor = ip_node_predecessor
-            elif(self.node.code == id_node_predecessor):
+                self.node.idSuccessor = id_node_sucessor
+                self.node.ipAddrSuccessor = ip_node_sucessor
+
+            elif self.node.code == id_node_sucessor:
+                self.node.idPredecessor = id_node_predecessor
+                self.node.ipAddrPredecessor = ip_node_predecessor
+
+            elif self.node.code == id_node_predecessor:
                 self.node.idSuccessor = id_node_sucessor
                 self.node.ipAddrSuccessor = ip_node_sucessor
 
