@@ -227,7 +227,7 @@ class ServerP2P(object):
             res = struct.unpack("!BI",msg['data'])
             id_src_msg = int(res[1])
             # ID_ORIGEM_MENSAGEM e igual ao valor no campo ID DO NO do meu No
-            self.node.updateScreen("Received: ANSWER UPDATE :ID_SRC="+str(id_src_msg)+" NODE ID="+self.node.code)
+            self.node.updateScreen("Received: ANSWER UPDATE :ID_SRC="+str(id_src_msg)+" NODE ID="+str(self.node.code))
 
     def run(self):
         ## Cria o Socket UDP na porta 12345
