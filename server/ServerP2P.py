@@ -218,7 +218,7 @@ class ServerP2P(object):
             rmsg = {
                 'dest_ip_addr': ip_new_sucessor,
                 'type': 67,
-                'id_src_msg': id_src,
+                'id_src_msg': self.node.code,
             }
             self.client_p2p.sendUpdateMsg(rmsg)
             self.node.updateScreen("Received: UPDATE:"+str(rmsg))
