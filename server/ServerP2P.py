@@ -59,7 +59,7 @@ class ServerP2P(object):
             rmsg = {
                 'dest_ip_addr':ip_node_predecessor,
                 'type': 3,
-                'id_src': self.node.idSuccessor,
+                'id_src': self.node.code,
                 'id_new_sucessor': self.node.code,
                 'ip_new_sucessor': self.node.ipAddrNode,
             }
