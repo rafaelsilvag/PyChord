@@ -5,10 +5,10 @@ import socket
 import struct
 
 class ClientP2P(object):
-    def __init__(self, host):
+    def __init__(self, host, sock):
         self.host = host
         self.port = 12345
-        self.sock = None
+        self.sock = sock
 
     def ip2int(self, addr):
         return struct.unpack("!I", socket.inet_aton(addr))[0]
@@ -27,10 +27,7 @@ class ClientP2P(object):
                                   self.ip2int(msg['ip_node_sucessor']),int(msg['id_node_predecessor']),
                                   self.ip2int(msg['ip_node_predecessor']))
         # Socket Object
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.connect((msg['dest_ip_addr'], self.port))
-        res = self.sock.send(sendMsg)
-        self.sock.close()
+        self.sock.sendto(sendMsg, (msg['dest_ip_addr'], self.port))
 
     def sendLeaveMsg(self, msg):
         # Envio da mensagem Leave com o código 1 e os campos ID do nó saindo da rede, ID do nó Sucessor, ID do nó
@@ -44,10 +41,7 @@ class ClientP2P(object):
             sendMsg = struct.pack("!BI",int(msg['type']),int(msg['id_src_msg']))
 
         # Socket Object
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.connect((msg['dest_ip_addr'], self.port))
-        res = self.sock.send(sendMsg)
-        self.sock.close()
+        self.sock.sendto(sendMsg, (msg['dest_ip_addr'], self.port))
 
     def sendLookupMsg(self, msg):
         # Envio da mensagem  de Lookup com o código 2 e os campos correspondentes
@@ -59,10 +53,7 @@ class ClientP2P(object):
             sendMsg = struct.pack("!BIII",int(msg['type']),int(msg['id_searched']),
                                   int(msg['id_sucessor_searched']),self.ip2int(msg['ip_sucessor_searched']))
         # Socket Object
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.connect((msg['dest_ip_addr'], self.port))
-        res = self.sock.send(sendMsg)
-        self.sock.close()
+        self.sock.sendto(sendMsg, (msg['dest_ip_addr'], self.port))
 
 
     def sendUpdateMsg(self, msg):
@@ -72,19 +63,16 @@ class ClientP2P(object):
             sendMsg = struct.pack("!BIII",int(msg['type']),int(msg['id_src']),
                                   int(msg['id_new_sucessor']),self.ip2int(msg['ip_new_sucessor']))
         elif(msg['type'] == 67):
-            sendMsg = struct.pack("!BI",int(msg['type']),int(msg['id_src_msg']))
+            sendMsg = struct.pack("!BI", int(msg['type']), int(msg['id_src_msg']))
 
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.connect((msg['dest_ip_addr'], self.port))
-        res = self.sock.send(sendMsg)
-        self.sock.close()
+        # Socket Object
+        self.sock.sendto(sendMsg, (msg['dest_ip_addr'], self.port))
 
     def sendMessage(self, msg):
         """
             Send Message using UDP Protocol
         """
         # Socket Object
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.connect((self.host, self.port))
-        res = self.sock.send(msg)
+        self.sock.send(msg)
         self.sock.close()

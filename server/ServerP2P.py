@@ -6,13 +6,20 @@ import struct
 from ClientP2P import ClientP2P
 
 class ServerP2P(object):
+    """
+        Class Server P2P - Work 01
+    """
     def __init__(self, node):
         self.__HOST = ''
         self.__PORT = 12345
+        ## Cria o Socket UDP na porta 12345
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP protocol
+        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.s.bind((self.__HOST, self.__PORT))
         self.conn = None
         self.stop = False
         self.node = node
-        self.client_p2p = ClientP2P("127.0.0.1")
+        self.client_p2p = ClientP2P("127.0.0.1", self.s)
 
     def ip2int(self, addr):
         return struct.unpack("!I", socket.inet_aton(addr))[0]
@@ -31,7 +38,7 @@ class ServerP2P(object):
             # Verifico se sou o unico no na rede: O antecessor e o sucessor sao iguais.
             ## Responde o Join
             rmsg = {
-                'dest_ip_addr':msg['addr'],
+                'dest_ip_addr': msg['addr'],
                 'type': 64,
                 'id_node_sucessor': self.node.code,
                 'ip_node_sucessor': self.node.ipAddrNode,
@@ -230,14 +237,10 @@ class ServerP2P(object):
             self.node.updateScreen("Received: ANSWER UPDATE :ID_SRC="+str(id_src_msg)+" NODE ID="+str(self.node.code))
 
     def run(self):
-        ## Cria o Socket UDP na porta 12345
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP protocol
-        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        s.bind((self.__HOST,self.__PORT))
-
         while(self.stop == False):
             # Handle sockets
-            data, addr = s.recvfrom(1024)
+            data, addr = self.s.recvfrom(1024)
+            self.client_p2p.sock = self.s
             msg = {'addr':addr[0], 'data':data}
             try:
                 if len(data) > 0:

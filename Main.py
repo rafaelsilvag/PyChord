@@ -5,6 +5,7 @@ from server.ServerP2P import ServerP2P
 from server.ClientP2P import ClientP2P
 from threading import Thread
 from domain import Node
+import socket
 import curses
 import hashlib
 
@@ -34,8 +35,8 @@ def main():
     codeHash = hashlib.md5(node.ipAddrNode)
     node.code = int(str(int(codeHash.hexdigest(),16))[0:4])
     ## Inicia e cria uma thread do servidor
-    p2pClient = ClientP2P("127.0.0.1")
     p2pServer = ServerP2P(node)
+    p2pClient = ClientP2P("127.0.0.1", p2pServer.s)
     processo=Thread(target=p2pServer.run)
     processo.start()
 
