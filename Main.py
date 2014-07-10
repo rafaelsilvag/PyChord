@@ -5,7 +5,6 @@ from server.ServerP2P import ServerP2P
 from server.ClientP2P import ClientP2P
 from threading import Thread
 from domain import Node
-import socket
 import curses
 import hashlib
 

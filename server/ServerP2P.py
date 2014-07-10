@@ -30,7 +30,7 @@ class ServerP2P(object):
     def joinMessage(self, msg):
         # Envio da mensagem Join
         typeMSG = bytearray(msg['data'])
-        if(int(typeMSG[0]) == 0 ):
+        if(int(typeMSG[0]) == 0):
             res = struct.unpack("!BI",msg['data'])
             id_node = int(res[1])
             # Responder a mensagem Join informando os dados do sucessor a antecessor.
@@ -138,13 +138,13 @@ class ServerP2P(object):
                 rmsg = {
                     'dest_ip_addr': src_ip_searched,
                     'type': 66,
-                    'id_searched': src_id_searched,
+                    'id_searched': id_searched,
                     'id_sucessor_searched': self.node.code,
                     'ip_sucessor_searched': self.node.ipAddrNode,
-                    'state':'A',
+                    'state': 'A',
                 }
                 self.client_p2p.sendLookupMsg(rmsg)
-            elif(self.node.code < src_id_searched and self.node.idSuccessor > src_id_searched):
+            elif(self.node.code < id_searched and self.node.idSuccessor > id_searched):
                 # O meu antecessor é maior porem o meu sucessor eh maior
                 # Repassa a Mensagem de Lookup para o meu Sucessor. (COD 2)
                 rmsg = {
@@ -153,33 +153,33 @@ class ServerP2P(object):
                     'src_id_searched': src_id_searched,
                     'src_ip_searched': src_ip_searched,
                     'id_searched': id_searched,
-                    'state':'B',
+                    'state': 'B',
                 }
                 self.client_p2p.sendLookupMsg(rmsg)
-            elif(self.node.code < src_id_searched and self.node.idPredecessor > self.node.code):
+            elif(self.node.code < id_searched and self.node.idPredecessor > self.node.code):
                 # se o meu ID é menor que o ID procurado  e o ID do meu antecessor é maior que o meu próprio ID,
-                # eu respondo a mensagem de Lookup para o ID do procurado. ( COD 66)
+                # eu respondo a mensagem de Lookup para o ID do procurado. (COD 66)
                 rmsg = {
                     'dest_ip_addr': src_ip_searched,
                     'type': 66,
-                    'id_searched': src_id_searched,
+                    'id_searched': id_searched,
                     'id_sucessor_searched': self.node.code,
                     'ip_sucessor_searched': self.node.ipAddrNode,
-                    'state':'C',
+                    'state': 'C',
                 }
                 self.client_p2p.sendLookupMsg(rmsg)
-            elif(self.node.code >= src_id_searched):
+            elif(self.node.code >= id_searched):
                 # Meu id Maior que ID do procurado = Responderei o Lookup para o ID do procurado. ( COD 66)
                 rmsg = {
                     'dest_ip_addr': src_ip_searched,
                     'type': 66,
-                    'id_searched': src_id_searched,
+                    'id_searched': id_searched,
                     'id_sucessor_searched': self.node.code,
                     'ip_sucessor_searched': self.node.ipAddrNode,
-                    'state':'D',
+                    'state': 'D',
                 }
                 self.client_p2p.sendLookupMsg(rmsg)
-            elif(self.node.code < src_id_searched):
+            elif(self.node.code < id_searched):
                 # Repassa a Mensagem de Lookup para o meu Sucessor. (COD 2)
                 rmsg = {
                     'dest_ip_addr': self.node.ipAddrSuccessor,
@@ -187,7 +187,7 @@ class ServerP2P(object):
                     'src_id_searched': src_id_searched,
                     'src_ip_searched': src_ip_searched,
                     'id_searched': id_searched,
-                    'state':'FORWADING',
+                    'state': 'FORWADING',
                 }
                 self.client_p2p.sendLookupMsg(rmsg)
 

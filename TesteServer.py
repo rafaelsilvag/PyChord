@@ -8,7 +8,7 @@ s.bind(('127.0.0.1',12345))
 while(True):
     # Handle sockets
     data, addr = s.recvfrom(1024)
-    s.sendto('aaa',('127.0.0.1',12345))
+    s.sendto('aaa',addr)
     #print int(bytearray(data)[0])
     #res = struct.unpack("bi",data)
     print data
